@@ -1,7 +1,7 @@
 PLUGIN.Title = "Better Deaths"
 PLUGIN.Description = "Creates an easy-to-find body when you die (online), tells you who killed you in your sleep (offline), also sends you to your bag or bed on login if your sleeper was killed!"
 PLUGIN.Author = "Gliktch"
-PLUGIN.Version = "0.1.3"
+PLUGIN.Version = "0.2.0"
 
 function PLUGIN:Init()
     self:AddChatCommand("mark", self.cmdMark)

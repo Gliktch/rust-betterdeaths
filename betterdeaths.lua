@@ -1,7 +1,7 @@
 PLUGIN.Title = "Better Deaths"
 PLUGIN.Description = "Creates an easy-to-find body near your pack when you die (when online), tells you who killed you in your sleep (offline), and sends you to bag/bed on login!"
 PLUGIN.Author = "Gliktch"
-PLUGIN.Version = "0.3.1"
+PLUGIN.Version = "0.1.2"
 
 function PLUGIN:Init()
     self:AddChatCommand("mark", self.cmdMark)
@@ -18,7 +18,7 @@ function PLUGIN:MarkSpot( netuser, x, y, z )
     local slant = util.GetStaticMethod( UnityEngine.Quaternion._type, "LookRotation" )
     q = slant[1]:Invoke( nil, util.ArrayFromTable( cs.gettype( "System.Object" ), { v } ) )
     if spawn == nil then
-        error("Mark My Pack: Failed to find overload!")
+        error("Better Deaths: MarkSpot() - Failed to find overload!")
         return false
     end
     -- alternative marker items

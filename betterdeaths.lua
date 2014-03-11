@@ -23,8 +23,7 @@ function PLUGIN:MarkSpot( netuser, x, y, z )
     end
     -- alternative marker items
     -- ;sleeper_male
-    -- ;deploy_camp_bonfire
-    -- ;explosive_charge
+    -- ;deploy_camp_bonfire (can't light yet :()
     -- ;struct_wooden_pillar
     -- ;struct_metal_pillar
     -- ;deploy_wood_box
@@ -40,4 +39,25 @@ function PLUGIN:cmdMark( netuser, cmd, args )
     local coords = netuser.playerClient.lastKnownPosition;
     self.MarkSpot( netuser, "dummy", coords.x, coords.y, coords.z )
     rust.SendChatToUser( netuser, "Suddenly, a penis!" )
+end
+
+function PLUGIN:OnKilled(takedamage, damage)
+    if not (tostring(type(damage) ~= "userdata")) or not (tostring(type(takedamage) ~= "userdata")) then
+    	return
+	end
+    if (takedamage:GetComponent( "HumanController" )) then
+    	if (damage.victim.client) then
+    	    local netuser = damage.victim.client.netUser;
+            if (damage.attacker.client) then
+			    if (damage.victim.client == damage.attacker.client) then
+                    rust.SendChatToUser( netuser, "Not marking pack for suicide - if you're offing yourself, you should get your bearings first!" )
+                    return
+                end
+            end
+            local coords = netuser.playerClient.lastKnownPosition;
+            rust.BroadcastChat("Better Deaths: Debug - " .. damage.victim.client.netUser.displayName .. "'s pack marked at coordinates " .. coords.x .. "," .. coords.y .. "," .. coords.z .. ".")
+            self.MarkSpot( netuser, "dummy", coords.x, coords.y, coords.z )
+            rust.SendChatToUser( netuser, "Your body falls to the ground, for you to find your belongings on your return." )
+        end
+    end
 end
